@@ -127,3 +127,47 @@ a:hover {
         font-size: 0.95rem;
     }
 }
+
+@media (max-width: 600px) {
+    .container {
+        max-width: 98vw;
+        padding: 10px 2vw;
+        border-radius: 8px;
+        box-shadow: none;
+    }
+    h1 {
+        font-size: 1.4rem;
+        margin-bottom: 18px;
+    }
+    form {
+        gap: 10px;
+    }
+    label, input, select, button {
+        font-size: 1rem;
+    }
+    input, select, button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .table-responsive {
+        margin-top: 10px;
+        border-radius: 6px;
+    }
+    .table-responsive table,
+    table {
+        min-width: 600px;
+        font-size: 0.92rem;
+    }
+    th, td {
+        padding: 7px 4px;
+    }
+}
+
+@media (max-width: 400px) {
+    h1 {
+        font-size: 1.1rem;
+    }
+    .container {
+        padding: 4px 1vw;
+    }
+}
