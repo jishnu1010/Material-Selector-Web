@@ -4,7 +4,7 @@ import json
 app = Flask(__name__)
 
 def corrosion_to_score(level):
-    return {"low": 1, "medium": 2, "high": 3}.get(level.lower(), 0)
+    return {"low": 1, "medium": 2, "high": 3, "excellent": 4, "good": 2}.get(level.lower(), 0)
 
 def cost_to_score(level):
     return {"low": 1, "medium": 2, "high": 3}.get(level.lower(), 0)
@@ -32,6 +32,8 @@ def index():
         matched = []
 
         for m in materials:
+            # Corrosion: allow equal or better (higher score is better)
+            # Cost: allow equal or cheaper (lower score is better)
             if (
                 m["tensile_strength"] >= user_input["tensile_strength"] and
                 m["temperature_limit"] >= user_input["temperature_limit"] and
