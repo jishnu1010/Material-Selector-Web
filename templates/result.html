@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Recommended Materials</h1>
+
+    {% if materials %}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Tensile Strength</th>
+            <th>Temp Limit</th>
+            <th>Corrosion</th>
+            <th>Density</th>
+            <th>Cost</th>
+            <th>Hardness</th>
+            <th>Thermal Cond.</th>
+            <th>Electrical Cond.</th>
+            <th>Recyclable</th>
+        </tr>
+        {% for m in materials %}
+        <tr>
+            <td>{{ m.name }}</td>
+            <td>{{ m.tensile_strength }}</td>
+            <td>{{ m.temperature_limit }}</td>
+            <td>{{ m.corrosion_resistance }}</td>
+            <td>{{ m.density }}</td>
+            <td>{{ m.cost }}</td>
+            <td>{{ m.hardness }}</td>
+            <td>{{ m.thermal_conductivity }}</td>
+            <td>{{ m.electrical_conductivity }}</td>
+            <td>{{ m.recyclable }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No matching materials found based on your input.</p>
+    {% endif %}
+    <br>
+    <a href="/">Try Again</a>
+</body>
+</html>

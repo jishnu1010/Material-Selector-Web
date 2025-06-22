@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Material Selector Tool</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Material Selector Tool</h1>
+    <form method="POST">
+
+        <label>Tensile Strength (MPa):</label>
+        <input type="range" name="tensile_strength" min="0" max="1000" value="300" oninput="tsOut.value = this.value">
+        <output id="tsOut">300</output><br><br>
+
+        <label>Max Temperature (°C):</label>
+        <input type="range" name="temperature_limit" min="0" max="1000" value="200" oninput="tempOut.value = this.value">
+        <output id="tempOut">200</output><br><br>
+
+        <label>Corrosion Resistance:</label>
+        <select name="corrosion_resistance">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select><br><br>
+
+        <label>Max Density (g/cm³):</label>
+        <input type="number" name="density" step="0.01" value="10"><br><br>
+
+        <label>Cost Limit:</label>
+        <select name="cost">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+        </select><br><br>
+
+        <label>Min Hardness (Brinell):</label>
+        <input type="number" name="hardness" value="50"><br><br>
+
+        <label>Min Thermal Conductivity (W/m·K):</label>
+        <input type="number" name="thermal_conductivity" step="0.1" value="10"><br><br>
+
+        <label>Min Electrical Conductivity (MS/m):</label>
+        <input type="number" name="electrical_conductivity" step="0.1" value="1"><br><br>
+
+        <label>Recyclable:</label>
+        <select name="recyclable">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select><br><br>
+
+        <button type="submit">Find Materials</button>
+    </form>
+</body>
+</html>
