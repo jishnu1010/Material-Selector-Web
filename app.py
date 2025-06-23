@@ -43,9 +43,26 @@ def index():
                 m["hardness"] >= user_input["hardness"] and
                 m["thermal_conductivity"] >= user_input["thermal_conductivity"] and
                 m["electrical_conductivity"] >= user_input["electrical_conductivity"] and
-                m["recyclable"].lower() == user_input["recyclable"].lower()
+                m["recyclable"].strip().lower() == user_input["recyclable"].strip().lower()
             ):
                 matched.append(m)
+
+        # If no exact matches, find the top 5 closest materials
+        if not matched:
+            def material_score(m):
+                score = 0
+                score += abs(m["tensile_strength"] - user_input["tensile_strength"])/max(user_input["tensile_strength"],1)
+                score += abs(m["temperature_limit"] - user_input["temperature_limit"])/max(user_input["temperature_limit"],1)
+                score += abs(corrosion_to_score(m["corrosion_resistance"]) - corrosion_to_score(user_input["corrosion_resistance"]))
+                score += abs(m["density"] - user_input["density"])/max(user_input["density"],1)
+                score += abs(cost_to_score(m["cost"]) - cost_to_score(user_input["cost"]))
+                score += abs(m["hardness"] - user_input["hardness"])/max(user_input["hardness"],1)
+                score += abs(m["thermal_conductivity"] - user_input["thermal_conductivity"])/max(user_input["thermal_conductivity"],1)
+                score += abs(m["electrical_conductivity"] - user_input["electrical_conductivity"])/max(user_input["electrical_conductivity"],1)
+                score += 0 if m["recyclable"].strip().lower() == user_input["recyclable"].strip().lower() else 1
+                return score
+            materials_sorted = sorted(materials, key=material_score)
+            matched = materials_sorted[:5]
 
         return render_template("result.html", materials=matched, criteria=user_input)
     
