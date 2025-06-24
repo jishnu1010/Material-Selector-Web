@@ -47,19 +47,29 @@ def index():
             ):
                 matched.append(m)
 
-        # If no exact matches, find the top 5 closest materials
+        # If no exact matches, find the top 5 closest materials using improved logic
         if not matched:
             def material_score(m):
                 score = 0
-                score += abs(m["tensile_strength"] - user_input["tensile_strength"])/max(user_input["tensile_strength"],1)
-                score += abs(m["temperature_limit"] - user_input["temperature_limit"])/max(user_input["temperature_limit"],1)
-                score += abs(corrosion_to_score(m["corrosion_resistance"]) - corrosion_to_score(user_input["corrosion_resistance"]))
-                score += abs(m["density"] - user_input["density"])/max(user_input["density"],1)
-                score += abs(cost_to_score(m["cost"]) - cost_to_score(user_input["cost"]))
-                score += abs(m["hardness"] - user_input["hardness"])/max(user_input["hardness"],1)
-                score += abs(m["thermal_conductivity"] - user_input["thermal_conductivity"])/max(user_input["thermal_conductivity"],1)
-                score += abs(m["electrical_conductivity"] - user_input["electrical_conductivity"])/max(user_input["electrical_conductivity"],1)
-                score += 0 if m["recyclable"].strip().lower() == user_input["recyclable"].strip().lower() else 1
+                # Penalize only if material is worse than user input for min/max fields
+                if m["tensile_strength"] < user_input["tensile_strength"]:
+                    score += (user_input["tensile_strength"] - m["tensile_strength"]) / max(user_input["tensile_strength"], 1)
+                if m["temperature_limit"] < user_input["temperature_limit"]:
+                    score += (user_input["temperature_limit"] - m["temperature_limit"]) / max(user_input["temperature_limit"], 1)
+                if corrosion_to_score(m["corrosion_resistance"]) < corrosion_to_score(user_input["corrosion_resistance"]):
+                    score += 2 * (corrosion_to_score(user_input["corrosion_resistance"]) - corrosion_to_score(m["corrosion_resistance"]))
+                if m["density"] > user_input["density"]:
+                    score += (m["density"] - user_input["density"]) / max(user_input["density"], 1)
+                if cost_to_score(m["cost"]) > cost_to_score(user_input["cost"]):
+                    score += 2 * (cost_to_score(m["cost"]) - cost_to_score(user_input["cost"]))
+                if m["hardness"] < user_input["hardness"]:
+                    score += (user_input["hardness"] - m["hardness"]) / max(user_input["hardness"], 1)
+                if m["thermal_conductivity"] < user_input["thermal_conductivity"]:
+                    score += (user_input["thermal_conductivity"] - m["thermal_conductivity"]) / max(user_input["thermal_conductivity"], 1)
+                if m["electrical_conductivity"] < user_input["electrical_conductivity"]:
+                    score += (user_input["electrical_conductivity"] - m["electrical_conductivity"]) / max(user_input["electrical_conductivity"], 1)
+                if m["recyclable"].strip().lower() != user_input["recyclable"].strip().lower():
+                    score += 3  # Strong penalty for not matching recyclable
                 return score
             materials_sorted = sorted(materials, key=material_score)
             matched = materials_sorted[:5]
