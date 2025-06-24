@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="dark">
 <head>
     <title>Results</title>
     <link rel="stylesheet" href="/static/style.css">
@@ -21,6 +21,57 @@
             document.getElementById('copyMsg').innerText = 'Copy failed.';
         });
     }
+    </script>
+    <style>
+      :root {
+        --primary-bg: #18191a;
+        --primary-text: #eaeaea;
+        --accent: #d4af37;
+        --container-bg: #232526;
+        --input-bg: #232526;
+        --input-border: #444;
+      }
+      :root[data-theme="light"] {
+        --primary-bg: #f7f7f7;
+        --primary-text: #232526;
+        --accent: #bfa14a;
+        --container-bg: #fff;
+        --input-bg: #f7f7f7;
+        --input-border: #bbb;
+      }
+      :root[data-theme="default"] {
+        --primary-bg: linear-gradient(135deg, #e3eafc 0%, #c1d3fe 100%);
+        --primary-text: #1e293b;
+        --accent: #2563eb;
+        --container-bg: #fff;
+        --input-bg: #fff;
+        --input-border: #cbd5e1;
+      }
+      body {
+        background: var(--primary-bg);
+        color: var(--primary-text);
+      }
+      .container {
+        background: var(--container-bg);
+      }
+      input, select, button {
+        background: var(--input-bg);
+        border: 1px solid var(--input-border);
+        color: var(--primary-text);
+      }
+      a { color: var(--accent); }
+      a:hover { color: var(--primary-text); }
+    </style>
+    <script>
+      function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+      }
+      window.onload = function() {
+        const saved = localStorage.getItem('theme') || 'dark';
+        setTheme(saved);
+        document.getElementById('themeSelect').value = saved;
+      };
     </script>
 </head>
 <body>
@@ -64,6 +115,14 @@
         <p>No matching materials found based on your input.</p>
         {% endif %}
         <br>
+        <div style="text-align:right;margin-bottom:10px;">
+          <label for="themeSelect" style="font-size:0.98rem;">Theme:</label>
+          <select id="themeSelect" onchange="setTheme(this.value)" style="margin-left:6px;">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+            <option value="default">Default</option>
+          </select>
+        </div>
         <a href="/">&#8592; Back to Material Selector</a>
         <footer style="margin-top:32px;text-align:center;font-size:0.98rem;color:#aaa;">
             created by <a href="https://www.instagram.com/jish.n_u.s/" target="_blank" style="color:#d4af37;text-decoration:none;">jishnu</a>

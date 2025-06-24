@@ -1,12 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="default">
 <head>
     <title>Material Selector Tool</title>
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+      :root {
+        --primary-bg: #18191a;
+        --primary-text: #eaeaea;
+        --accent: #d4af37;
+        --container-bg: #232526;
+        --input-bg: #232526;
+        --input-border: #444;
+      }
+      :root[data-theme="light"] {
+        --primary-bg: #f7f7f7;
+        --primary-text: #232526;
+        --accent: #bfa14a;
+        --container-bg: #fff;
+        --input-bg: #f7f7f7;
+        --input-border: #bbb;
+      }
+      :root[data-theme="default"] {
+        --primary-bg: linear-gradient(135deg, #e3eafc 0%, #c1d3fe 100%);
+        --primary-text: #1e293b;
+        --accent: #2563eb;
+        --container-bg: #fff;
+        --input-bg: #fff;
+        --input-border: #cbd5e1;
+      }
+      body {
+        background: var(--primary-bg);
+        color: var(--primary-text);
+      }
+      .container {
+        background: var(--container-bg);
+      }
+      input, select, button {
+        background: var(--input-bg);
+        border: 1px solid var(--input-border);
+        color: var(--primary-text);
+      }
+      a { color: var(--accent); }
+      a:hover { color: var(--primary-text); }
+      /* Highlight labels in dark mode */
+      :root[data-theme="dark"] label {
+        color: #ffe066 !important;
+        font-size: 1.08rem !important;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+      }
+    </style>
+    <script>
+        // Theme switcher logic
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        }
+        function loadTheme() {
+            const theme = localStorage.getItem('theme') || 'default';
+            setTheme(theme);
+            document.getElementById('theme-select').value = theme;
+        }
+        window.onload = loadTheme;
+    </script>
 </head>
 <body>
     <div class="container">
         <h1>Material Selector Tool</h1>
+        <div style="text-align:right;margin-bottom:10px;">
+            <label for="theme-select" style="font-size:0.98rem;color:#aaa;">Theme:</label>
+            <select id="theme-select" onchange="setTheme(this.value)" style="margin-left:6px;">
+                <option value="default">Default</option>
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+            </select>
+        </div>
         <form method="POST">
             <label>Tensile Strength (MPa):</label>
             <input type="range" name="tensile_strength" min="0" max="1000" value="300" oninput="tsOut.value = this.value">
