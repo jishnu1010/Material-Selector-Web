@@ -30,6 +30,25 @@
         --container-bg: #232526;
         --input-bg: #232526;
         --input-border: #444;
+        --table-bg: #232526;
+        --table-header-bg: #35363a;
+        --table-row-even: #232526;
+        --table-row-odd: #18191a;
+        --table-text: #ffe066;
+      }
+      :root[data-theme="dark"] table, :root[data-theme="dark"] th, :root[data-theme="dark"] td {
+        background: var(--table-bg) !important;
+        color: var(--table-text) !important;
+      }
+      :root[data-theme="dark"] th {
+        background: var(--table-header-bg) !important;
+        color: #fffbe7 !important;
+      }
+      :root[data-theme="dark"] tr:nth-child(even) {
+        background: var(--table-row-even) !important;
+      }
+      :root[data-theme="dark"] tr:nth-child(odd) {
+        background: var(--table-row-odd) !important;
       }
       :root[data-theme="light"] {
         --primary-bg: #f7f7f7;
